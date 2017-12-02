@@ -28,6 +28,7 @@ before((done) => {
 });
 
 // A hook is a function that executes before any test.
+// Here we drop the full DB created from any prior test run.
 // But we have to inform Mocha not to run any tests until this drop completes.
 // That can be accomplished with 'done' callback.
 beforeEach((done) => {
