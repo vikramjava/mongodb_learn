@@ -1,4 +1,6 @@
 const mongoose = require('mongoose');
+const PostSchema = require('./post');
+
 const Schema = mongoose.Schema;
 
 // The Schema is a small portion of the overall UserModel that just
@@ -13,9 +15,10 @@ const UserSchema = new Schema({
     },
     required: [true, 'Name is required.']
   },
-  postCount : Number
-
+  postCount : Number,
+  posts: [PostSchema]
 });
+
 
 // Create User class / User model that represents the entire collection
 // of data.

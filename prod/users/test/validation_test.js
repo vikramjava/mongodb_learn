@@ -24,8 +24,7 @@ describe('Validating records', () => {
   });
 
   it("disallows invalid records from being saved", (done) => {
-    const user = new User({ name : 'Al' });
-
+    const user = new User({ name : 'Al' }); 
     // Here if we expect a failure, instead of using 'then'
     // we should use 'catch' This is because promise is being
     // rejected.
