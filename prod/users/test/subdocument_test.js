@@ -35,7 +35,7 @@ describe('Subdocuments', () => {
       });
   });
 
-  it("ca =n remove an exisiting subdocument", (done) => {
+  it("can remove an exisiting subdocument", (done) => {
     const joe = new User ({
       name : "Joe",
       posts : [{ title : 'New Title'}]
