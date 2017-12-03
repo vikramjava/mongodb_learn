@@ -32,8 +32,15 @@ before((done) => {
 // But we have to inform Mocha not to run any tests until this drop completes.
 // That can be accomplished with 'done' callback.
 beforeEach((done) => {
-  mongoose.connection.collections.users.drop(() => {
-    // Ready to run the next test!!
-    done();
+  //Added after associations were created.
+  // Mongoose normalizes each name below and makes it lower case.
+  const { users, comment, blogposts } = mongoose.connection.collections;
+  users.drop(() => {
+    comments.drop ((){
+      blogPosts.drop(() => {
+        // Ready to run the next test!!
+        done();
+      });
+    });
   });
 });
