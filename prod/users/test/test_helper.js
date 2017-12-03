@@ -34,10 +34,10 @@ before((done) => {
 beforeEach((done) => {
   //Added after associations were created.
   // Mongoose normalizes each name below and makes it lower case.
-  const { users, comment, blogposts } = mongoose.connection.collections;
+  const { users, comments, blogposts } = mongoose.connection.collections;
   users.drop(() => {
-    comments.drop ((){
-      blogPosts.drop(() => {
+    comments.drop (() => {
+      blogposts.drop(() => {
         // Ready to run the next test!!
         done();
       });
