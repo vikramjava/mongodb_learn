@@ -27,6 +27,15 @@ UserSchema.virtual('postCount').get(function() {
   return this.posts.length;
 });
 
+UserSchema.pre('remove', function(next) {
+  //In this function we don't use => because here 'this' === Joe
+  const BlogPost = mongoose.model('blogPost')
+
+  // Go through all the blogpost If the ID is in this(Joe), then remove it.
+  BlogPost.remove({ _id: { $in: this.blogPosts } })
+    .then(() => next());
+})
+
 // Create User class / User model that represents the entire collection
 // of data.
 const User = mongoose.model('user', UserSchema);
