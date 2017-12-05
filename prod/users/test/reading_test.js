@@ -2,7 +2,7 @@ const assert = require('assert');
 const User = require('../src/user');
 
 describe('Reading users out of the DB', () => {
-  let joe;
+  let joe, maria, alex, zach;
 
   // Need to insert a user before trying to find it.
   beforeEach((done) => {
@@ -10,10 +10,16 @@ describe('Reading users out of the DB', () => {
       // the instance gets saved to the DB. Can be used later to
       // verify if we saved and retrieved the instance correctly.
       // However in mongoDB id is saved as ObjectID. Not as a raw string.
-      joe = new User({ name : 'Joe'});
-      joe.save()
-        .then(() => done());
 
+      // for skip limit test we add more users.
+      alex= new User({ name : 'Alex' });
+      joe = new User({ name : 'Joe' });
+      maria = new User({ name : 'Maria' });
+      zach = new User({ name : 'Zach' })
+
+      // Promise for all. See assoications_test.js
+      Promise.all([alex.save(), joe.save(), maria.save(), zach.save()])
+        .then(() => done());
   });
 
   it('finds all users with a name of Joe', (done) => {
@@ -36,4 +42,20 @@ describe('Reading users out of the DB', () => {
         done();
       })
   })
+
+  it('can skip and limit the result set', (done) => {
+    // Query modifier to skip first user. And limit the output to only 2 users.
+    // So only Joe and Maria should be shown in the result set.
+    // To make sure results are consistent, do a sort by name.
+    User.find({})
+      .sort({ name : 1 })
+      .skip(1)
+      .limit(2)
+      .then((users) => {
+        assert(users.length === 2);
+        assert(users[0].name === "Joe");
+        assert(users[1].name === "Maria");
+        done();
+      })
+  });
 });
